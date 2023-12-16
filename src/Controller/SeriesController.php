@@ -41,6 +41,7 @@ class SeriesController extends AbstractController
     {
         $series = new Series();
         $series->setName($request->request->get('name'));
+        $this->addFlash('success', 'A serie ' . $series->getName() . ' foi adicionada com sucesso!');
 
         $this->seriesRepository->save($series);
 
@@ -54,6 +55,7 @@ class SeriesController extends AbstractController
     public function deleteSeries(int $id) : Response
     {
         $this->seriesRepository->delete($id);
+        $this->addFlash('success', 'A serie foi removida com sucesso!');
 
         return $this->redirectToRoute('app_series');
     }
@@ -75,6 +77,7 @@ class SeriesController extends AbstractController
         $series->setName($request->request->get('name'));
 
         $this->seriesRepository->save($series);
+        $this->addFlash('success', 'A serie ' . $series->getName() . ' foi editada com sucesso!');
 
         return $this->redirectToRoute('app_series');
     }
