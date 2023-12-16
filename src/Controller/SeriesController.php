@@ -27,7 +27,7 @@ class SeriesController extends AbstractController
     }
 
     #[Route('/series/add', name: 'app_series_add', methods: ['GET', 'POST'])]
-    public function seriesForm(): Response
+    public function addSeriesForm(): Response
     {
         return $this->render('series/form.html.twig');
     }
