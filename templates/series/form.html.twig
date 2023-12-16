@@ -1,0 +1,14 @@
+{% extends 'base.html.twig' %}
+
+{% block title %} Adicionar série {% endblock %}
+
+{% block body %}
+    <form>
+        <div>
+            <label for="nome">Nome</label>
+            <input type="text" id="nome" name="nome" class="form-control">
+        </div>
+
+        <button type="submit" class="btn btn-primary mt-4">Salvar</button>
+    </form>
+{% endblock %}
