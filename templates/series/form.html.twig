@@ -1,14 +1,20 @@
 {% extends 'base.html.twig' %}
 
-{% block title %} Adicionar série {% endblock %}
+{% block title %} {{ series is defined ? 'Atualizar' : 'Adicionar' }} série {% endblock %}
 
 {% block body %}
     <form method="post">
         <div>
             <label for="nome">Nome</label>
-            <input type="text" id="name" name="name" class="form-control">
+            <input type="text" id="name" name="name" class="form-control" value="{{ series is defined ? series.name : '' }}">
         </div>
 
-        <button type="submit" class="btn btn-primary mt-4">Salvar</button>
+         {% if series is defined %}
+            <input type="hidden" name="_method" value="PATCH">
+         {% endif %}
+
+        <button type="submit" class="btn btn-primary mt-4">
+            {{ series is defined ? 'Atualizar' : 'Adicionar' }}
+        </button>
     </form>
 {% endblock %}
