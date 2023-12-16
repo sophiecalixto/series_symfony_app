@@ -4,6 +4,7 @@ namespace App\Repository;
 
 use App\Entity\Series;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\ORM\Exception\ORMException;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
@@ -48,6 +49,16 @@ class SeriesRepository extends ServiceEntityRepository
     public function save(Series $series): void
     {
         $this->_em->persist($series);
+        $this->_em->flush();
+    }
+
+    /**
+     * @throws ORMException
+     */
+    public function delete(int $id)
+    {
+        $series = $this->_em->getReference(Series::class, $id);
+        $this->_em->remove($series);
         $this->_em->flush();
     }
 }

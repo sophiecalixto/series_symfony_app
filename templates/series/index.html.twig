@@ -6,7 +6,14 @@
     <a href="{{ path('app_series_add') }}" class="btn btn-primary mb-2">Adicionar</a>
     <ul class="list-group mt-4">
         {% for serie in seriesList %}
-            <li class="list-group-item">{{ serie.name }}</li>
+            <li class="list-group-item d-flex justify-content-between align-items-center">
+                {{ serie.name }}
+
+                <form method="POST" action="{{ path('app_series_delete', {id: serie.id}) }}">
+                    <input type="hidden" name="_method" value="DELETE">
+                    <button type="submit" class="btn btn-danger" value="Delete">Excluir</button>
+                </form>
+            </li>
         {% endfor %}
     </ul>
 {% endblock %}

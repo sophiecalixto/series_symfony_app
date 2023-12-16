@@ -42,4 +42,12 @@ class SeriesController extends AbstractController
 
         return $this->redirectToRoute('app_series');
     }
+
+    #[Route('/series/delete/{id}', name: 'app_series_delete', requirements: ['id' => '\d+'], methods: ['DELETE'])]
+    public function deleteSeries(int $id) : Response
+    {
+        $this->seriesRepository->delete($id);
+
+        return $this->redirectToRoute('app_series');
+    }
 }
