@@ -45,4 +45,9 @@ class SeriesRepository extends ServiceEntityRepository
 //            ->getOneOrNullResult()
 //        ;
 //    }
+    public function save(Series $series): void
+    {
+        $this->_em->persist($series);
+        $this->_em->flush();
+    }
 }

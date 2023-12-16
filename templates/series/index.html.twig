@@ -6,7 +6,7 @@
     <a href="{{ path('app_series_add') }}" class="btn btn-primary mb-2">Adicionar</a>
     <ul class="list-group mt-4">
         {% for serie in seriesList %}
-            <li class="list-group-item">{{ serie }}</li>
+            <li class="list-group-item">{{ serie.name }}</li>
         {% endfor %}
     </ul>
 {% endblock %}
