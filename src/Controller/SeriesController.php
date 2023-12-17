@@ -6,6 +6,7 @@ use App\Entity\Series;
 use App\Form\SeriesType;
 use App\Repository\SeriesRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -67,15 +68,19 @@ class SeriesController extends AbstractController
     #[Route('/series/edit/{series}', name: 'app_series_edit', methods: ['GET'])]
     public function editSeriesForm(Series $series) : Response
     {
+        $seriesForm = $this->createForm(SeriesType::class, $series, ['method' => 'PATCH']);
+        // METHOD PATCH
+        $seriesForm->add('save', SubmitType::class, ['label' => 'Editar']);
+
         return $this->render('series/form.html.twig',
-            compact('series')
+            compact('seriesForm')
         );
     }
 
     #[Route('/series/edit/{series}', name: 'app_series_edit_patch', methods: ['PATCH'])]
     public function editSeries(Request $request, Series $series) : Response
     {
-        $series->setName($request->request->get('name'));
+        $series->setName($request->request->all()['series']['name']);
 
         $this->seriesRepository->save($series);
         $this->addFlash('success', 'A serie ' . $series->getName() . ' foi editada com sucesso!');
