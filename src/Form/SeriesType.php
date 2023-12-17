@@ -14,7 +14,8 @@ class SeriesType extends AbstractType
     {
         $builder
             ->add('name', options: ['label' => 'Nome:'])
-            ->add('save', SubmitType::class, ['label' => 'Adicionar'])
+            ->add('save', SubmitType::class, options: ['label' => $options['label']])
+            ->setMethod($options['method'])
         ;
     }
 
@@ -22,6 +23,8 @@ class SeriesType extends AbstractType
     {
         $resolver->setDefaults([
             'data_class' => Series::class,
+            'label' => 'Salvar',
+            'method' => 'POST'
         ]);
     }
 }
