@@ -42,7 +42,13 @@ class SeriesController extends AbstractController
     #[Route('/series/add', name: 'app_series_add_post', methods: ['POST'])]
     public function addSeries(Request $request) : Response
     {
-        $series = $this->createForm(SeriesType::class, new Series())->handleRequest($request)->getData();
+        $seriesForm = $this->createForm(SeriesType::class, new Series())->handleRequest($request);
+
+        if (!$seriesForm->isValid()) {
+            return $this->render('series/form.html.twig', compact('seriesForm'));
+        }
+
+        $series = $seriesForm->getData();
         $this->addFlash('success', 'A serie ' . $series->getName() . ' foi adicionada com sucesso!');
 
         $this->seriesRepository->save($series);
@@ -80,6 +86,10 @@ class SeriesController extends AbstractController
     {
         $seriesForm = $this->createForm(SeriesType::class, $series, ['label' => 'Editar', 'method' => 'PATCH']);
         $seriesForm->handleRequest($request);
+
+        if (!$seriesForm->isValid()) {
+            return $this->render('series/form.html.twig', compact('seriesForm', 'series'));
+        }
 
         $this->seriesRepository->save($series);
         $this->addFlash('success', 'A serie ' . $series->getName() . ' foi editada com sucesso!');
