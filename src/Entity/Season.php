@@ -19,7 +19,7 @@ class Season
     #[ORM\Column(type: Types::SMALLINT)]
     private ?int $number = null;
 
-    #[ORM\OneToMany(mappedBy: 'season', targetEntity: Episode::class, orphanRemoval: true)]
+    #[ORM\OneToMany(mappedBy: 'season', targetEntity: Episode::class, cascade: ['persist'] ,orphanRemoval: true)]
     private Collection $episodes;
 
     #[ORM\ManyToOne(inversedBy: 'seasons')]

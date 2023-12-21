@@ -21,7 +21,7 @@ class Series
     #[Assert\Length(min: 3)]
     private ?string $name = null;
 
-    #[ORM\OneToMany(mappedBy: 'series', targetEntity: Season::class)]
+    #[ORM\OneToMany(mappedBy: 'series', targetEntity: Season::class, cascade: ['persist'], orphanRemoval: true)]
     private Collection $seasons;
 
     public function __construct()

@@ -2,11 +2,12 @@
 
 namespace App\Controller;
 
+use App\DTO\SeriesCreateFormInput;
 use App\Entity\Series;
 use App\Form\SeriesType;
 use App\Repository\SeriesRepository;
+use App\Services\SeriesBuilder;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -35,20 +36,22 @@ class SeriesController extends AbstractController
     #[Route('/series/add', name: 'app_series_add', methods: ['GET'])]
     public function addSeriesForm(): Response
     {
-        $seriesForm = $this->createForm(SeriesType::class, new Series());
+        $seriesForm = $this->createForm(SeriesType::class, new SeriesCreateFormInput());
         return $this->render('series/form.html.twig', compact('seriesForm'));
     }
 
     #[Route('/series/add', name: 'app_series_add_post', methods: ['POST'])]
     public function addSeries(Request $request) : Response
     {
-        $seriesForm = $this->createForm(SeriesType::class, new Series())->handleRequest($request);
+        $seriesForm = $this->createForm(SeriesType::class, new SeriesCreateFormInput())->handleRequest($request);
 
         if (!$seriesForm->isValid()) {
             return $this->render('series/form.html.twig', compact('seriesForm'));
         }
 
-        $series = $seriesForm->getData();
+        $seriesDTO = $seriesForm->getData();
+        $series = SeriesBuilder::buildSeries($seriesDTO);
+
         $this->addFlash('success', 'A serie ' . $series->getName() . ' foi adicionada com sucesso!');
 
         $this->seriesRepository->save($series);
